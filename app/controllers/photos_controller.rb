@@ -45,8 +45,6 @@ class PhotosController < ApplicationController
 
     a_new_photo.save
 
-
-    # render({ :template => "/photo_templates/create.html.erb"})
     redirect_to("/photos/#{a_new_photo.id}")
   end
 
@@ -65,7 +63,30 @@ class PhotosController < ApplicationController
 
     the_photo.save
 
-    # render({ :template => "photo_templates/update.html.erb"})
     redirect_to("/photos/#{the_photo.id}")
   end
+
+  def add_comment
+    #  Parameters: {"query_photo_id"=>"777", "query_author_id"=>"117", "query_comment"=>"check 1,2"}
+    photo_id = params.fetch("query_photo_id")
+
+    
+    @comment_section = Comment.where({ :photo_id => photo_id})
+
+    commenting_author_id = params.fetch("query_author_id")
+    new_comment_body = params.fetch("query_comment")
+
+    new_comment = Comment.new
+    new_comment.photo_id = photo_id
+    new_comment.author_id = commenting_author_id
+    new_comment.body = new_comment_body
+
+    new_comment.save
+
+    comment_section.order({ :created_at => :asc })
+
+    # render({ :template => "photo_templates/add_new_comment.html.erb"})
+    redirect_to("/photos/#{new_comment.photo_id}")
+  end
+
 end
