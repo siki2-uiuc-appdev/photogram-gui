@@ -70,8 +70,6 @@ class PhotosController < ApplicationController
     #  Parameters: {"query_photo_id"=>"777", "query_author_id"=>"117", "query_comment"=>"check 1,2"}
     photo_id = params.fetch("query_photo_id")
 
-    
-    @comment_section = Comment.where({ :photo_id => photo_id})
 
     commenting_author_id = params.fetch("query_author_id")
     new_comment_body = params.fetch("query_comment")
@@ -83,7 +81,7 @@ class PhotosController < ApplicationController
 
     new_comment.save
 
-    comment_section.order({ :created_at => :asc })
+  
 
     # render({ :template => "photo_templates/add_new_comment.html.erb"})
     redirect_to("/photos/#{new_comment.photo_id}")
